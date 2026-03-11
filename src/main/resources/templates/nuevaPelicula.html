@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Alta Película</title>
+    <link rel="stylesheet" href="estiloNueva.css">
+</head>
+
+<body>
+<span th:replace="fragment_navbar :: navBar"></span>
+<form th:action="@{/createMovie}" th:object="${pelicula}" method="post">
+
+    <h2>Alta de Película</h2>
+
+    <input type="text"
+           placeholder="Título"
+           th:field="*{titulo}">
+
+    <input type="text"
+           placeholder="Director"
+           th:field="*{director}">
+
+    <input type="text"
+           placeholder="URL de imagen"
+           th:field="*{imgUrl}">
+
+    <input type="text"
+           placeholder="URL video"
+           th:field="*{videoUrl}">
+    <!-- Campo género -->
+    <select th:field="*{genero}">
+        <option value="">Selecciona un género</option>
+
+        <option th:each="g : ${generos}"
+                th:value="${g.id}"
+                th:text="${g.nombre}">
+        </option>
+
+    </select>
+
+    <button type="submit">Guardar</button>
+
+</form>
+
+</body>
+</html>

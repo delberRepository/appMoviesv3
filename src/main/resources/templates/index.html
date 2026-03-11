@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Películas</title>
+    <link rel="stylesheet" href="estiloIndex.css">
+</head>
+
+<body>
+<span th:replace="fragment_navbar :: navBar"></span>
+
+<header>
+    <div class="logo">PELISGUAPAS</div>
+
+    <div class="search-bar">
+        <form th:action="@{/searchMovie}" method="post">
+          <!--Aqui le estoy pasando un parametro con el numero de pelis que estan cargadas-->
+            <button class="btnCount" th:text="${#lists.size(peliculas)}"></button>
+            <select name="searchGenero">
+                <option value="0">Todos los géneros</option>
+
+                <option th:each="g : ${generos}"
+                        th:value="${g.id}"
+                        th:text="${g.nombre}">
+                </option>
+            </select>
+
+            <input type="text" placeholder="Buscar por título" name="searchTitle">
+
+            <button>Buscar</button>
+
+
+        </form>
+
+        <a th:href="@{/createMovie}" class="btn">Nueva película</a>
+    </div>
+
+
+</header>
+
+<div class="container">
+
+    <div class="grid">
+
+        <div class="card" th:each="p : ${peliculas}">
+
+            <img th:src="${p.imgUrl}" alt="poster pelicula">
+
+            <div class="card-content">
+
+                <div class="card-title"
+                     th:text="${p.titulo}">
+                </div>
+
+                <a th:href="@{/verFicha/{id}(id=${p.id})}" class="btn">
+                    Ver ficha
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

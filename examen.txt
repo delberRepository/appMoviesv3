@@ -1,0 +1,7 @@
+▪ Ventajas del de uso de contenedores:
+▪ Estandarizar entornos: evita el clásico "en mi máquina funciona" porque el contenedor
+se ejecuta igual en cualquier lugar (local, servidor, nube).
+▪ Aislamiento: cada contenedor corre de forma independiente, sin interferir con otros.
+▪ Portabilidad: puedes mover contenedores entre diferentes sistemas fácilmente.
+▪ Escalabilidad: es ideal para arquitecturas como microservicios, donde cada componente
+corre en su propio contenedor.

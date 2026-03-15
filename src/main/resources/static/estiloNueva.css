@@ -1,60 +1,52 @@
+/* RESET */
+*{
+    box-sizing:border-box;
+}
 
+/* BODY */
 body{
+    margin:0;
+    font-family:Arial;
     background:#141414;
     color:white;
-    font-family:Arial;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
+    overflow-x:hidden;
 }
-/* Navbar contenedor */
-nav{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #141414; /* negro Netflix */
-    z-index: 1000;
-}
+/* NAVBAR */
 
-/* Lista */
 .navbar{
-    display: flex;
-    align-items: center;
-    list-style: none;
-    margin: 0;
-    padding: 0 40px;
-    height: 60px;
+    display:flex;
+    align-items:center;
+    list-style:none;
+    margin:0;
+    padding:0 40px;
+    height:60px;
 }
 
-/* Items */
 .navbar li{
-    margin-right: 30px;
+    margin-right:30px;
 }
 
-/* Links */
 .navbar a{
-    text-decoration: none;
-    color: #e5e5e5;
-    font-size: 16px;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    text-decoration:none;
+    color:#e5e5e5;
+    font-size:16px;
+    font-weight:500;
+    transition:color 0.3s ease;
 }
 
-/* Hover estilo Netflix */
 .navbar a:hover{
-    color: #e50914; /* rojo Netflix */
+    color:#e50914;
 }
 
-/* Logo opcional (si luego quieres añadirlo) */
+/* Logo */
 .logo{
-    color: #e50914;
-    font-size: 22px;
-    font-weight: bold;
-    margin-right: 40px;
+    color:#e50914;
+    font-size:22px;
+    font-weight:bold;
+    margin-right:40px;
 }
 
+/* FORMULARIO */
 form{
     background:#222;
     padding:30px;
@@ -63,12 +55,16 @@ form{
     display:flex;
     flex-direction:column;
     gap:15px;
+    max-width:90%;
+    margin:auto;
+    margin-top: 60px;
 }
 
 input, select, textarea{
     padding:10px;
     border:none;
     border-radius:4px;
+    width:100%;
 }
 
 button{
@@ -83,3 +79,4 @@ button{
 button:hover{
     background:#f6121d;
 }
+

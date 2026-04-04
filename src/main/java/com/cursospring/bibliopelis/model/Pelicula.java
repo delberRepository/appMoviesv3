@@ -16,6 +16,11 @@ public class Pelicula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    // Usuario (id) que creo/subio la pelicula. Se setea en backend al crear la pelicula.
+    // Integer para permitir null en peliculas antiguas si la DB ya contiene registros.
+    @Column(name = "created_by_id")
+    private Integer createdById;
     @Column(name="year")
     private Integer anyo;
     private String titulo;

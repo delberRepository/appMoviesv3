@@ -10,11 +10,13 @@ import com.cursospring.bibliopelis.services.MovieServices;
 import com.cursospring.bibliopelis.services.ReviewServices;
 import com.cursospring.bibliopelis.services.UserServices;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +58,14 @@ public class MainController {
     }
 
     @PostMapping("/createMovie")
-    public String createMovieSubmit(@ModelAttribute Pelicula pelicula) {
+    public String createMovieSubmit(@ModelAttribute Pelicula pelicula, Authentication auth) {
+        if (auth == null || !(auth.getPrincipal() instanceof Usuario usuarioLogueado)) {
+            // /createMovie esta protegido en SecurityConfig, pero mejor fallar de forma segura.
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        // No confiar en parametros del form: el owner se decide aqui.
+        pelicula.setCreatedById(usuarioLogueado.getId());
         this.ms.crearPelicula(pelicula);
         return "redirect:/";
     }
@@ -64,6 +73,18 @@ public class MainController {
     public String verFicha(@PathVariable int id, Model model) {
 
         Pelicula pelicula = ms.getPeliculaById(id);
+        if (pelicula == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        Integer usuarioId = null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof Usuario u) {
+            usuarioId = u.getId();
+        }
+
+        boolean canDelete = ms.esCreador(pelicula, usuarioId);
+
         //aqui llamo al metodo para extraer el identificador y
         //luego vuelvo a cagar en la variable videoUrl.
         String videoId = ms.extractYoutubeId(pelicula.getVideoUrl());
@@ -74,13 +95,26 @@ public class MainController {
         //AQUI AÑADO LA MEDIA DE LAS PELIS
         Double media = rs.getMediaPelicula(id);
         model.addAttribute("mediaRating", media);
-
         model.addAttribute("pelicula", pelicula);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("canDelete", canDelete);
         return "fichaBorrar";
     }
     @PostMapping("/deleteMovie/{id}")
-    public String deleteMovie(@PathVariable int id){
+    public String deleteMovie(@PathVariable int id, Authentication auth){
+        if (auth == null || !(auth.getPrincipal() instanceof Usuario usuarioLogueado)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+
+        Pelicula pelicula = ms.getPeliculaById(id);
+        if (pelicula == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+
+        if (!ms.esCreador(pelicula, usuarioLogueado.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         this.ms.borrarPelicula(id);
         return "redirect:/";
 
@@ -140,5 +174,3 @@ public class MainController {
     }
 
 }
-
-

@@ -42,6 +42,20 @@ public class MovieServices {
         return peliculasRepository.findById(id).orElse(null);
     }
 
+    public Integer getCreatedById(Pelicula pelicula) {
+        return pelicula == null ? null : pelicula.getCreatedById();
+    }
+
+    public boolean esCreador(Pelicula pelicula, Integer usuarioId) {
+        if (usuarioId == null) return false;
+
+        // Usuario 1 = administrador (puede borrar aunque no sea el creador).
+        if (usuarioId != null && usuarioId == 1) return true;
+
+        Integer createdById = getCreatedById(pelicula);
+        return createdById != null && createdById.intValue() == usuarioId;
+    }
+
     //Extraer el Id del Url
     public String extractYoutubeId(String url) {
         String[] parts = url.split("v=");
@@ -95,4 +109,3 @@ public class MovieServices {
             }
         }
     }
-

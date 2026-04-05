@@ -9,30 +9,26 @@
 </head>
 <body>
 <nav th:fragment="navBar">
-    <ul class="navbar">
-        <li><a th:href="@{/}">Home</a></li>
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/createMovie}">New movie</a></li>
+    <div class="navbar" role="navigation" aria-label="Main">
+        <div class="navbar__row navbar__row--primary">
+            <a th:href="@{/}">Home</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/createMovie}">New movie</a>
+            <a sec:authorize="isAnonymous()" th:href="@{/login}" class="navbar__login" >Login</a>
 
-        <li style="margin-left:auto;"></li>
+        </div>
 
-        <!-- NO LOGUEADO -->
-        <li sec:authorize="isAnonymous()">
-            <a th:href="@{/login}">Login</a>
-        </li>
+        <div class="navbar__row navbar__row--secondary">
+            <!-- NO LOGUEADO -->
 
-        <!-- LOGUEADO -->
-        <li sec:authorize="isAuthenticated()">
-            <span sec:authentication="name"></span>
-        </li>
+            <!-- LOGUEADO -->
+            <span sec:authorize="isAuthenticated()" class="navbar__user" sec:authentication="name"></span>
 
-        <li sec:authorize="isAuthenticated()">
-            <form th:action="@{/logout}" method="post">
+            <form sec:authorize="isAuthenticated()" class="navbar__logout" th:action="@{/logout}" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <button type="submit">Logout</button>
             </form>
-        </li>
-
-    </ul>
+        </div>
+    </div>
 </nav>
 </body>
 </html>

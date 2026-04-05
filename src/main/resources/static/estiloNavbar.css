@@ -1,12 +1,42 @@
 .navbar{
     display:flex;
     align-items:center;
-    list-style:none;
+    justify-content:flex-start;
     margin:0px 60px;
     padding:0 40px;
-    height:60px;
-
+    min-height:60px;
 }
+
+.navbar__row{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+/* --- Estilos para Escritorio --- */
+
+.navbar__row--primary {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-grow: 1; /* NUEVO: Ocupa el espacio disponible para que el margen funcione */
+}
+
+.navbar__login {
+    margin-left: auto; /* EMPUJA el login a la derecha dentro de la fila primaria */
+    /* Elimina el justify-content: right que tenías antes, no es necesario */
+}
+
+.navbar__row--secondary{
+    margin-left: auto; /* empuja el grupo (Login o usuario/Logout) a la derecha en desktop */
+}
+
+.navbar__user{
+    color:#e5e5e5;
+    font-size:16px;
+    font-weight:500;
+}
+
+.navbar button,
 button{
     background:#e50914;
     border:none;
@@ -16,12 +46,9 @@ button{
     cursor:pointer;
 }
 
+.navbar button:hover,
 button:hover{
     background:#f6121d;
-}
-
-.navbar li{
-    margin-right:30px;
 }
 
 .navbar a{
@@ -34,4 +61,47 @@ button:hover{
 
 .navbar a:hover{
     color:#e50914;
+}
+
+.navbar__login{
+    justify-content: right;
+}
+
+@media (max-width: 600px) {
+    .navbar{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        height: auto;
+        margin: 0;
+        padding: 12px 16px;
+    }
+
+    .navbar__row{
+        width: 100%;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .navbar__row--primary{
+        justify-content: flex-start;
+    }
+
+    .navbar__row--secondary{
+        justify-content: flex-end;
+    }
+
+    .navbar a{
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255,255,255,0.06);
+    }
+
+    .navbar__logout{
+        margin: 0;
+    }
+
+    .navbar__login{
+        margin-left: auto; /* empuja el login a la derecha en mobile */
+    }
 }
